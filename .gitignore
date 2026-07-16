@@ -7,6 +7,6 @@ _t.mjs
 # this vendored fallback copy doesn't need to be tracked.
 assets/mermaid.min.js
 
-# mdth writes nothing to your content directories by design.
+# mdxp writes nothing to your content directories by design.
 # If a cache is ever enabled, it lives here and is safe to ignore:
-.mdth/
+.mdxp/

@@ -1,4 +1,4 @@
-/* mdth client: navigation, filtering, theming, mermaid. */
+/* mdxp client: navigation, filtering, theming, mermaid. */
 
 const layout = document.querySelector(".layout");
 const scroll = document.getElementById("scroll");

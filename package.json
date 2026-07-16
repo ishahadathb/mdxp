@@ -1,10 +1,10 @@
 {
-  "name": "@ishahadathb/mdth",
+  "name": "mdxp",
   "version": "0.1.0",
   "description": "Turn any directory of Markdown into a fast, browsable HTML explorer. Renders on demand, live-reloads, supports Mermaid and full-text search, and writes nothing to your files.",
   "type": "module",
   "bin": {
-    "mdth": "bin/mdth.js"
+    "mdxp": "bin/mdth.js"
   },
   "files": [
     "bin",
@@ -43,9 +43,6 @@
   "homepage": "https://github.com/ishahadathb/mdth#readme",
   "bugs": {
     "url": "https://github.com/ishahadathb/mdth/issues"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "engines": {
     "node": ">=18"

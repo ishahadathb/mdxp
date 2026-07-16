@@ -6,10 +6,10 @@ import { createServer } from "../src/server.js";
 import { VERSION } from "../src/version.js";
 
 const HELP = `
-  mdth — browse a directory of Markdown as HTML, rendered on demand.
+  mdxp — browse a directory of Markdown as HTML, rendered on demand.
 
   Usage
-    mdth [directory] [options]
+    mdxp [directory] [options]
 
   Arguments
     directory            Folder to serve (default: current directory)
@@ -24,11 +24,11 @@ const HELP = `
         --help           Show this help
 
   Examples
-    mdth                 Serve the current directory
-    mdth ./docs          Serve ./docs
-    npx mdth ./docs -p 8080
+    mdxp                 Serve the current directory
+    mdxp ./docs          Serve ./docs
+    npx mdxp ./docs -p 8080
 
-  mdth never writes to the directory it serves.
+  mdxp never writes to the directory it serves.
 `;
 
 function parseArgs(argv) {
@@ -104,7 +104,7 @@ async function main() {
       const url = `http://${opts.host}:${port}/`;
       const name = path.basename(root) || root;
       process.stdout.write(
-        `\n  mdth  ·  serving \x1b[1m${name}\x1b[0m\n` +
+        `\n  mdxp  ·  serving \x1b[1m${name}\x1b[0m\n` +
         `  ➜  \x1b[36m${url}\x1b[0m\n` +
         `  ➜  ${root}\n\n` +
         `  Press Ctrl+C to stop.\n\n`

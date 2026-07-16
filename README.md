@@ -1,36 +1,36 @@
-# mdth
+# mdxp
 
 [![CI](https://github.com/ishahadathb/mdth/actions/workflows/ci.yml/badge.svg)](https://github.com/ishahadathb/mdth/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/@ishahadathb/mdth.svg)](https://www.npmjs.com/package/@ishahadathb/mdth)
-[![license](https://img.shields.io/npm/l/@ishahadathb/mdth.svg)](./LICENSE)
+[![npm](https://img.shields.io/npm/v/mdxp.svg)](https://www.npmjs.com/package/mdxp)
+[![license](https://img.shields.io/npm/l/mdxp.svg)](./LICENSE)
 
-**Markdown, browsable.** Point `mdth` at a folder and it opens a fast, readable HTML explorer for every `.md` file inside — rendered live, on demand. Nothing is written to your files.
+**Markdown, browsable.** Point `mdxp` at a folder and it opens a fast, readable HTML explorer for every `.md` file inside — rendered live, on demand. Nothing is written to your files.
 
 ```bash
-npx @ishahadathb/mdth ./docs
+npx mdxp ./docs
 ```
 
 That's it. Your default browser opens on a clean reader with a file tree, search, dark mode, Mermaid diagrams, and working links between documents.
 
 ## Why
 
-Most Markdown tools *convert* your files into a pile of `.html` you have to manage. `mdth` doesn't. It's a tiny local server that reads each `.md` when you open it and renders it in the browser. Close it and there's no residue — the directory you served is exactly as you left it.
+Most Markdown tools *convert* your files into a pile of `.html` you have to manage. `mdxp` doesn't. It's a tiny local server that reads each `.md` when you open it and renders it in the browser. Close it and there's no residue — the directory you served is exactly as you left it.
 
 ## Install & run
 
 Run without installing:
 
 ```bash
-npx @ishahadathb/mdth            # serve the current directory
-npx @ishahadathb/mdth ./docs     # serve ./docs
-npx @ishahadathb/mdth ./docs -p 8080
+npx mdxp            # serve the current directory
+npx mdxp ./docs     # serve ./docs
+npx mdxp ./docs -p 8080
 ```
 
-Or install globally (the command is `mdth` either way):
+Or install globally:
 
 ```bash
-npm install -g @ishahadathb/mdth
-mdth ./notes
+npm install -g mdxp
+mdxp ./notes
 ```
 
 ## Options
@@ -62,24 +62,24 @@ mdth ./notes
 - **Instant navigation** — internal links load without a full page reload; the sidebar and your place are preserved.
 - **Filter & keyboard** — <kbd>/</kbd> filters the tree, <kbd>⌘K</kbd> opens search, <kbd>Esc</kbd> closes; the palette is fully arrow-key driven.
 - **Accessible** — skip-link, visible focus rings, reduced-motion support, and keyboard-navigable throughout.
-- **Zero residue** — `mdth` never writes into the directory it serves.
+- **Zero residue** — `mdxp` never writes into the directory it serves.
 
 ## How it works
 
-`mdth` starts a local HTTP server bound to `127.0.0.1`. Requests map to routes:
+`mdxp` starts a local HTTP server bound to `127.0.0.1`. Requests map to routes:
 
 - `/view/<path>` renders a Markdown file as a full reader page.
 - `/partial/<path>` returns just the rendered document (used for instant in-app navigation).
 - `/raw/<path>` streams any other file (images, PDFs, video) straight from disk, with range support.
 - `/__events` is a Server-Sent Events stream that pushes live-reload notifications when files change.
 - `/__search?q=` runs full-text search over a lazily-built in-memory index (rebuilt when files change).
-- `/assets/*` serves mdth's own bundled CSS/JS and Mermaid — never from your folder.
+- `/assets/*` serves mdxp's own bundled CSS/JS and Mermaid — never from your folder.
 
 Markdown is parsed with `markdown-it` (CommonMark + tables, task lists, typographer), headings get anchor links, code is highlighted with `highlight.js`, and relative links/images are rewritten to the routes above. Path traversal outside the served directory is blocked.
 
 ## Versioning & releases
 
-The version in `package.json` is the single source of truth — it's what `mdth --version`
+The version in `package.json` is the single source of truth — it's what `mdxp --version`
 prints and what shows in the reader's footer. The project follows
 [Semantic Versioning](https://semver.org); notable changes are recorded in
 [CHANGELOG.md](./CHANGELOG.md).
@@ -104,10 +104,10 @@ npm install
 npm run demo      # serves the bundled ./sample directory
 ```
 
-To use the `mdth` command from any folder while developing, link it once:
+To use the `mdxp` command from any folder while developing, link it once:
 
 ```bash
-npm link          # then run `mdth ./any/folder` anywhere
+npm link          # then run `mdxp ./any/folder` anywhere
 ```
 
 ### Testing

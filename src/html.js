@@ -3,7 +3,7 @@ import { VIEW_PREFIX } from "./render.js";
 import { VERSION } from "./version.js";
 
 // A token that changes every server start, appended to bundled asset URLs so a
-// browser can never serve a stale copy of mdth's own CSS/JS after an update.
+// browser can never serve a stale copy of mdxp's own CSS/JS after an update.
 const ASSET_VERSION = Date.now().toString(36);
 
 function esc(s) {
@@ -142,7 +142,7 @@ export function renderShell({ rootName, sidebar, contentHtml, title, rel, mdCoun
           </article>
           <nav class="pager" id="pager" aria-label="Previous and next document"></nav>
           <footer class="doc-foot">
-            <span>Rendered by <strong>mdth</strong> <span class="version">v${VERSION}</span></span>
+            <span>Rendered by <strong>mdxp</strong> <span class="version">v${VERSION}</span></span>
           </footer>
         </div>
         <aside class="toc" id="toc" aria-label="On this page">
@@ -182,7 +182,7 @@ export function renderEmptyState(rootName, mdCount) {
   if (mdCount === 0) {
     return `<div class="empty">
       <h1>No Markdown here yet</h1>
-      <p>mdth didn't find any <code>.md</code> files in <strong>${esc(rootName)}</strong>.
+      <p>mdxp didn't find any <code>.md</code> files in <strong>${esc(rootName)}</strong>.
       Drop some Markdown into this folder and refresh.</p>
     </div>`;
   }

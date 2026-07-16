@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test suite on Node's built-in runner and CI across Node 18/20/22.
 
 ### Notes
-- Published as `@ishahadathb/mdth`; the installed command is `mdth`.
+- Published to npm as `mdxp`; the installed command is `mdxp`.
 
 [Unreleased]: https://github.com/ishahadathb/mdth/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/ishahadathb/mdth/releases/tag/v0.1.0
