@@ -1,7 +1,7 @@
 {
-  "name": "mdth",
+  "name": "@ishahadathb/mdth",
   "version": "0.1.0",
-  "description": "mdth — turn any directory of Markdown files into a fast, browsable HTML explorer. Renders on demand, writes nothing to your files.",
+  "description": "Turn any directory of Markdown into a fast, browsable HTML explorer. Renders on demand, live-reloads, supports Mermaid and full-text search, and writes nothing to your files.",
   "type": "module",
   "bin": {
     "mdth": "bin/mdth.js"
@@ -9,26 +9,42 @@
   "files": [
     "bin",
     "src",
-    "assets"
+    "assets/app.css",
+    "assets/app.js",
+    "assets/favicon.svg"
   ],
   "scripts": {
     "start": "node bin/mdth.js",
     "demo": "node bin/mdth.js sample",
     "test": "node --test",
-    "test:watch": "node --test --watch"
+    "test:watch": "node --test --watch",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "markdown",
+    "markdown-viewer",
     "md",
-    "viewer",
     "explorer",
     "mermaid",
     "docs",
+    "documentation",
     "cli",
-    "server"
+    "live-reload",
+    "markdown-to-html"
   ],
-  "author": "",
+  "author": "Biplob <shahadat.biplob@cefalo.com> (https://github.com/ishahadathb)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishahadathb/mdth.git"
+  },
+  "homepage": "https://github.com/ishahadathb/mdth#readme",
+  "bugs": {
+    "url": "https://github.com/ishahadathb/mdth/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=18"
   },

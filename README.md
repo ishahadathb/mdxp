@@ -1,9 +1,13 @@
 # mdth
 
+[![CI](https://github.com/ishahadathb/mdth/actions/workflows/ci.yml/badge.svg)](https://github.com/ishahadathb/mdth/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@ishahadathb/mdth.svg)](https://www.npmjs.com/package/@ishahadathb/mdth)
+[![license](https://img.shields.io/npm/l/@ishahadathb/mdth.svg)](./LICENSE)
+
 **Markdown, browsable.** Point `mdth` at a folder and it opens a fast, readable HTML explorer for every `.md` file inside — rendered live, on demand. Nothing is written to your files.
 
 ```bash
-npx mdth ./docs
+npx @ishahadathb/mdth ./docs
 ```
 
 That's it. Your default browser opens on a clean reader with a file tree, search, dark mode, Mermaid diagrams, and working links between documents.
@@ -17,15 +21,15 @@ Most Markdown tools *convert* your files into a pile of `.html` you have to mana
 Run without installing:
 
 ```bash
-npx mdth               # serve the current directory
-npx mdth ./docs        # serve ./docs
-npx mdth ./docs -p 8080
+npx @ishahadathb/mdth            # serve the current directory
+npx @ishahadathb/mdth ./docs     # serve ./docs
+npx @ishahadathb/mdth ./docs -p 8080
 ```
 
-Or install globally:
+Or install globally (the command is `mdth` either way):
 
 ```bash
-npm install -g mdth
+npm install -g @ishahadathb/mdth
 mdth ./notes
 ```
 

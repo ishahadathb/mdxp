@@ -3,6 +3,7 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import { renderMarkdown, isMarkdown, VIEW_PREFIX, RAW_PREFIX } from "./render.js";
 import { buildTree, countMarkdown, findDefaultDoc, flattenMarkdown } from "./tree.js";
 import { renderSidebar, renderShell, renderEmptyState, renderBreadcrumbs } from "./html.js";
@@ -10,10 +11,15 @@ import { renderSidebar, renderShell, renderEmptyState, renderBreadcrumbs } from 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_PKG = path.join(__dirname, "..");
 const ASSET_DIR = path.join(ROOT_PKG, "assets");
+const require = createRequire(import.meta.url);
 
-// Prefer the mermaid bundle from the installed dependency so it always
-// matches package.json; fall back to a copy vendored in assets/.
+// Locate the mermaid browser bundle. Resolve it through the module system
+// first (works regardless of how npm hoists the dependency), then fall back
+// to the local node_modules path and finally a vendored copy in assets/.
 function mermaidBundlePath() {
+  try {
+    return require.resolve("mermaid/dist/mermaid.min.js");
+  } catch { /* not resolvable — try filesystem fallbacks */ }
   const candidates = [
     path.join(ROOT_PKG, "node_modules", "mermaid", "dist", "mermaid.min.js"),
     path.join(ASSET_DIR, "mermaid.min.js"),
