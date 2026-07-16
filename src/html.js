@@ -83,7 +83,7 @@ export function renderShell({ rootName, sidebar, contentHtml, title, rel, mdCoun
 <script>
   // Apply saved theme before paint to avoid flash.
   try {
-    var t = localStorage.getItem("mdth-theme");
+    var t = localStorage.getItem("mdxp-theme");
     if (t) document.documentElement.setAttribute("data-theme", t);
   } catch (e) {}
 </script>
@@ -170,7 +170,7 @@ export function renderShell({ rootName, sidebar, contentHtml, title, rel, mdCoun
   </div>
 </div>
 
-<script id="mdth-data" type="application/json">${bootData}</script>
+<script id="mdxp-data" type="application/json">${bootData}</script>
 <script src="/assets/mermaid.min.js?v=${ASSET_VERSION}" defer></script>
 <script type="module" src="/assets/app.js?v=${ASSET_VERSION}"></script>
 </body>

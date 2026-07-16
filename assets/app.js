@@ -13,7 +13,7 @@ const pager = document.getElementById("pager");
 
 /* ---------- Boot data ---------- */
 const BOOT = (() => {
-  try { return JSON.parse(document.getElementById("mdth-data").textContent); }
+  try { return JSON.parse(document.getElementById("mdxp-data").textContent); }
   catch { return { rel: "", files: [], rootName: "" }; }
 })();
 let currentRel = BOOT.rel || "";
@@ -31,7 +31,7 @@ function currentTheme() {
 }
 function setTheme(t) {
   document.documentElement.setAttribute("data-theme", t);
-  try { localStorage.setItem("mdth-theme", t); } catch {}
+  try { localStorage.setItem("mdxp-theme", t); } catch {}
   renderMermaid(true);
 }
 document.getElementById("themeBtn")?.addEventListener("click", () => {

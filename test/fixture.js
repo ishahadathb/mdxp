@@ -7,7 +7,7 @@ import path from "node:path";
  * Lives under the OS temp dir so it can always be cleaned up.
  */
 export function makeFixture() {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "mdth-test-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "mdxp-test-"));
   const write = (rel, content) => {
     const abs = path.join(dir, rel);
     fs.mkdirSync(path.dirname(abs), { recursive: true });

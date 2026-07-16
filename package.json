@@ -4,7 +4,7 @@
   "description": "Turn any directory of Markdown into a fast, browsable HTML explorer. Renders on demand, live-reloads, supports Mermaid and full-text search, and writes nothing to your files.",
   "type": "module",
   "bin": {
-    "mdxp": "bin/mdth.js"
+    "mdxp": "bin/mdxp.js"
   },
   "files": [
     "bin",
@@ -14,8 +14,8 @@
     "assets/favicon.svg"
   ],
   "scripts": {
-    "start": "node bin/mdth.js",
-    "demo": "node bin/mdth.js sample",
+    "start": "node bin/mdxp.js",
+    "demo": "node bin/mdxp.js sample",
     "test": "node --test",
     "test:watch": "node --test --watch",
     "preversion": "npm test",
@@ -38,11 +38,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ishahadathb/mdth.git"
+    "url": "git+https://github.com/ishahadathb/mdxp.git"
   },
-  "homepage": "https://github.com/ishahadathb/mdth#readme",
+  "homepage": "https://github.com/ishahadathb/mdxp#readme",
   "bugs": {
-    "url": "https://github.com/ishahadathb/mdth/issues"
+    "url": "https://github.com/ishahadathb/mdxp/issues"
   },
   "engines": {
     "node": ">=18"
