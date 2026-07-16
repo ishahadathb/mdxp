@@ -90,6 +90,17 @@ To use the `mdth` command from any folder while developing, link it once:
 npm link          # then run `mdth ./any/folder` anywhere
 ```
 
+### Testing
+
+Tests use Node's built-in runner — no extra dependencies:
+
+```bash
+npm test          # run the suite once
+npm run test:watch
+```
+
+Coverage spans the rendering pipeline (link rewriting, mermaid, callouts, titles), the directory walker (ignore rules, ordering, default doc), and the HTTP server (all routes, full-text search, and the path-traversal guard). CI runs the suite on Node 18, 20, and 22 via GitHub Actions (`.github/workflows/ci.yml`).
+
 ## License
 
 MIT

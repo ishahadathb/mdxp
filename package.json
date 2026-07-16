@@ -13,7 +13,9 @@
   ],
   "scripts": {
     "start": "node bin/mdth.js",
-    "demo": "node bin/mdth.js sample"
+    "demo": "node bin/mdth.js sample",
+    "test": "node --test",
+    "test:watch": "node --test --watch"
   },
   "keywords": [
     "markdown",
