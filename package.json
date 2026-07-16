@@ -18,6 +18,8 @@
     "demo": "node bin/mdth.js sample",
     "test": "node --test",
     "test:watch": "node --test --watch",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags",
     "prepublishOnly": "npm test"
   },
   "keywords": [

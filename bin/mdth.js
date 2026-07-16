@@ -2,8 +2,8 @@
 import path from "node:path";
 import fs from "node:fs";
 import { spawn } from "node:child_process";
-import { fileURLToPath } from "node:url";
 import { createServer } from "../src/server.js";
+import { VERSION } from "../src/version.js";
 
 const HELP = `
   mdth — browse a directory of Markdown as HTML, rendered on demand.
@@ -59,15 +59,6 @@ function parseArgs(argv) {
   return opts;
 }
 
-function pkgVersion() {
-  const here = path.dirname(fileURLToPath(import.meta.url));
-  try {
-    return JSON.parse(fs.readFileSync(path.join(here, "..", "package.json"), "utf8")).version;
-  } catch {
-    return "0.0.0";
-  }
-}
-
 function openBrowser(url) {
   const cmd =
     process.platform === "darwin" ? "open" :
@@ -86,7 +77,7 @@ function openBrowser(url) {
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   if (opts.help) { process.stdout.write(HELP); return; }
-  if (opts.version) { console.log(pkgVersion()); return; }
+  if (opts.version) { console.log(VERSION); return; }
 
   const root = path.resolve(process.cwd(), opts.dir || ".");
   let stat;

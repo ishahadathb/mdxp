@@ -1,5 +1,6 @@
 import path from "node:path";
 import { VIEW_PREFIX } from "./render.js";
+import { VERSION } from "./version.js";
 
 // A token that changes every server start, appended to bundled asset URLs so a
 // browser can never serve a stale copy of mdth's own CSS/JS after an update.
@@ -141,7 +142,7 @@ export function renderShell({ rootName, sidebar, contentHtml, title, rel, mdCoun
           </article>
           <nav class="pager" id="pager" aria-label="Previous and next document"></nav>
           <footer class="doc-foot">
-            <span>Rendered by <strong>mdth</strong></span>
+            <span>Rendered by <strong>mdth</strong> <span class="version">v${VERSION}</span></span>
           </footer>
         </div>
         <aside class="toc" id="toc" aria-label="On this page">

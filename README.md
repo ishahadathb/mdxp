@@ -77,6 +77,22 @@ mdth ./notes
 
 Markdown is parsed with `markdown-it` (CommonMark + tables, task lists, typographer), headings get anchor links, code is highlighted with `highlight.js`, and relative links/images are rewritten to the routes above. Path traversal outside the served directory is blocked.
 
+## Versioning & releases
+
+The version in `package.json` is the single source of truth — it's what `mdth --version`
+prints and what shows in the reader's footer. The project follows
+[Semantic Versioning](https://semver.org); notable changes are recorded in
+[CHANGELOG.md](./CHANGELOG.md).
+
+Cutting a release (tests run first, then the tag is pushed automatically):
+
+```bash
+npm version patch   # or: minor | major
+# preversion runs the test suite, npm bumps package.json + commits + tags vX.Y.Z,
+# postversion pushes the commit and the tag
+npm publish
+```
+
 ## Requirements
 
 Node.js 18 or newer.
