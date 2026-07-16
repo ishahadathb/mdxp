@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" rx="12" fill="#2f6fed"/>
+  <text x="20" y="52" font-family="ui-monospace,Menlo,monospace" font-size="34" font-weight="700" fill="#fff">mdth</text>
+  <text x="130" y="50" font-family="system-ui,sans-serif" font-size="15" fill="#cfe0ff">markdown, browsable</text>
+</svg>

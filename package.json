@@ -1,0 +1,41 @@
+{
+  "name": "mdth",
+  "version": "0.1.0",
+  "description": "mdth — turn any directory of Markdown files into a fast, browsable HTML explorer. Renders on demand, writes nothing to your files.",
+  "type": "module",
+  "bin": {
+    "mdth": "bin/mdth.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "assets"
+  ],
+  "scripts": {
+    "start": "node bin/mdth.js",
+    "demo": "node bin/mdth.js sample"
+  },
+  "keywords": [
+    "markdown",
+    "md",
+    "viewer",
+    "explorer",
+    "mermaid",
+    "docs",
+    "cli",
+    "server"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.10.0",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-task-lists": "^2.1.1",
+    "mermaid": "^11.4.1"
+  }
+}

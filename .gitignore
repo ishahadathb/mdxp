@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.DS_Store
+_t.mjs
+
+# Mermaid is served from the installed dependency at runtime;
+# this vendored fallback copy doesn't need to be tracked.
+assets/mermaid.min.js
+
+# mdth writes nothing to your content directories by design.
+# If a cache is ever enabled, it lives here and is safe to ignore:
+.mdth/
