@@ -4,12 +4,69 @@ import anchor from "markdown-it-anchor";
 import taskLists from "markdown-it-task-lists";
 import hljs from "highlight.js";
 import matter from "gray-matter";
+import sanitizeHtml from "sanitize-html";
 
 // Route helpers shared with the server.
 export const VIEW_PREFIX = "/view/";
 export const RAW_PREFIX = "/raw/";
 
+// Front-matter is DATA, never code. gray-matter will otherwise execute a
+// ```---js``` / ```---javascript``` block on the machine running mdth, which is
+// remote code execution when the served Markdown is untrusted. Force YAML and
+// neutralise every executable engine so such blocks parse to nothing.
+const INERT = { parse: () => ({}), stringify: () => "" };
+const MATTER_OPTS = {
+  language: "yaml",
+  engines: { javascript: INERT, js: INERT, coffee: INERT, coffeescript: INERT },
+};
+
+// Rendered HTML is sanitised before it ever reaches a browser. Markdown may
+// contain arbitrary raw HTML (html:true below), so without this a document
+// could inject <script>, event handlers, or javascript:/data: URLs — stored
+// XSS in the localhost origin. The allow-list keeps every feature mdth emits
+// (syntax highlighting, mermaid blocks, callouts, task lists, header anchors,
+// tables) while dropping anything executable.
+const SANITIZE = {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(
+    ["img", "h1", "h2", "details", "summary", "input", "label",
+      "del", "ins", "sub", "sup", "kbd", "mark", "abbr", "figure", "figcaption"]
+  ),
+  allowedAttributes: {
+    "*": ["id", "class", "tabindex", "aria-hidden", "aria-label", "data-callout", "align", "role", "title"],
+    a: ["href", "name", "target", "rel"],
+    img: ["src", "alt", "width", "height", "loading"],
+    input: ["type", "checked", "disabled"],
+    td: ["colspan", "rowspan", "style"],
+    th: ["colspan", "rowspan", "style"],
+    ol: ["start"],
+  },
+  allowedStyles: { "*": { "text-align": [/^(left|right|center|justify)$/] } },
+  allowedSchemes: ["http", "https", "mailto", "tel"],
+  allowedSchemesByTag: { img: ["http", "https", "data"] },
+  allowProtocolRelative: false,
+  transformTags: {
+    a: (tagName, attribs) => {
+      if (attribs.target === "_blank") attribs.rel = "noopener noreferrer";
+      return { tagName, attribs };
+    },
+  },
+};
+
 const MD_EXT = new Set([".md", ".markdown", ".mdown", ".mkd", ".mdx"]);
+
+// Cap the size of a document we will fully render. Rendering is synchronous and
+// blocks the event loop; a multi-megabyte file — especially one packed with
+// auto-linkable URLs — can otherwise freeze the server for seconds (a local
+// denial of service). Matches the search indexer's 3 MB skip threshold.
+const MAX_RENDER_BYTES = 3_000_000;
+
+function escText(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
 // Supported callout/admonition types and their display labels.
 const CALLOUTS = {
@@ -170,10 +227,30 @@ function buildMd(currentRel) {
  * @returns {{ html: string, title: string, hasMermaid: boolean, frontmatter: object }}
  */
 export function renderMarkdown(source, currentRel) {
-  const parsed = matter(source);
+  // Guard against pathologically large documents blocking the event loop.
+  if (Buffer.byteLength(source || "") > MAX_RENDER_BYTES) {
+    const name = path.posix.basename(currentRel || "") || "document";
+    return {
+      html: `<div class="empty"><h1>File too large to preview</h1>` +
+        `<p><code>${escText(name)}</code> exceeds the ` +
+        `${Math.round(MAX_RENDER_BYTES / 1e6)} MB preview limit.</p></div>`,
+      title: name,
+      hasMermaid: false,
+      frontmatter: {},
+    };
+  }
+
+  // Parse front-matter as data only. If it is malformed, fall back to treating
+  // the whole file as body rather than throwing (a bad file must not 500/crash).
+  let parsed;
+  try {
+    parsed = matter(source, MATTER_OPTS);
+  } catch {
+    parsed = { content: source, data: {} };
+  }
   const body = parsed.content;
   const md = buildMd(currentRel);
-  const html = md.render(body);
+  const html = sanitizeHtml(md.render(body), SANITIZE);
 
   // Title: front-matter title, else first H1, else filename.
   let title = parsed.data && parsed.data.title ? String(parsed.data.title) : null;

@@ -111,7 +111,7 @@ function initMermaid() {
   if (!mermaidReady) {
     window.mermaid.initialize({
       startOnLoad: false,
-      securityLevel: "loose",
+      securityLevel: "strict",
       fontFamily: "inherit",
     });
     mermaidReady = true;
@@ -124,7 +124,7 @@ async function renderMermaid(rerenderAll = false) {
     return void setTimeout(() => renderMermaid(rerenderAll), 120);
   }
   const theme = currentTheme() === "dark" ? "dark" : "default";
-  window.mermaid.initialize({ startOnLoad: false, securityLevel: "loose", fontFamily: "inherit", theme });
+  window.mermaid.initialize({ startOnLoad: false, securityLevel: "strict", fontFamily: "inherit", theme });
 
   const blocks = Array.from(doc.querySelectorAll("pre.mermaid"));
   for (const el of blocks) {

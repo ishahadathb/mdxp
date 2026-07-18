@@ -60,9 +60,24 @@ function mimeFor(p) {
   return MIME[path.extname(p).toLowerCase()] || "application/octet-stream";
 }
 
+// Applied to raw file responses. If a served file happens to be HTML, opening
+// it directly must not run scripts in mdth's origin (it could then read the
+// whole served tree via /raw/ and exfiltrate it). Images/PDF/video/text are
+// unaffected — they don't need scripts.
+const RAW_SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "Content-Security-Policy": "script-src 'none'; object-src 'none'; base-uri 'none'",
+};
+
 function send(res, status, body, headers = {}) {
   res.writeHead(status, {
     "Cache-Control": "no-store",
+    // Baseline hardening on every response. These directives don't affect
+    // mdth's own inline theme script or mermaid (which needs eval), so they're
+    // safe to apply globally; sanitisation in render.js is the primary XSS
+    // defence, this is defence in depth.
+    "X-Content-Type-Options": "nosniff",
+    "Content-Security-Policy": "object-src 'none'; base-uri 'none'; frame-ancestors 'self'",
     ...headers,
   });
   res.end(body);
@@ -71,8 +86,13 @@ function send(res, status, body, headers = {}) {
 /**
  * Resolve a URL-decoded, root-relative path to an absolute path inside root.
  * Returns null on traversal attempts or if the path escapes root.
+ *
+ * Containment is checked twice: lexically (blocks `../`) and, crucially, after
+ * resolving symlinks with realpath — otherwise a symlink inside the served
+ * directory pointing outside it (e.g. `leak -> /etc/passwd`) would be followed
+ * and its target disclosed. Async because realpath touches the filesystem.
  */
-function safeResolve(root, relRaw) {
+async function safeResolve(root, relRaw) {
   let rel;
   try {
     rel = decodeURIComponent(relRaw);
@@ -82,8 +102,26 @@ function safeResolve(root, relRaw) {
   rel = rel.replace(/\\/g, "/").replace(/^\/+/, "");
   const abs = path.resolve(root, rel);
   const rootWithSep = root.endsWith(path.sep) ? root : root + path.sep;
-  if (abs !== root && !abs.startsWith(rootWithSep)) return null;
-  return abs;
+  if (abs !== root && !abs.startsWith(rootWithSep)) return null; // lexical guard
+
+  let realRoot;
+  try {
+    realRoot = await fsp.realpath(root);
+  } catch {
+    return null;
+  }
+  let real;
+  try {
+    real = await fsp.realpath(abs);
+  } catch (err) {
+    // Path (or a symlink target) doesn't exist: let the caller produce its own
+    // 404 for a genuinely missing file, but reject broken/dangling symlinks.
+    if (err && err.code === "ENOENT") return abs;
+    return null;
+  }
+  const realRootWithSep = realRoot.endsWith(path.sep) ? realRoot : realRoot + path.sep;
+  if (real !== realRoot && !real.startsWith(realRootWithSep)) return null; // symlink escaped
+  return real;
 }
 
 function notFound(res, msg = "Not found") {
@@ -208,9 +246,10 @@ export function createServer({ root, showAll = false, live = true }) {
 
       return await serveView(res, root, showAll, rel);
     } catch (err) {
-      send(res, 500, `<pre>${String(err && err.stack || err)}</pre>`, {
-        "Content-Type": "text/html; charset=utf-8",
-      });
+      // Log the detail server-side; never leak stack traces (internal paths,
+      // versions) to the client.
+      console.error("mdth: request error:", err && err.stack || err);
+      send(res, 500, "Internal server error", { "Content-Type": "text/plain; charset=utf-8" });
     }
   });
 
@@ -218,7 +257,7 @@ export function createServer({ root, showAll = false, live = true }) {
     const files = flattenMarkdown(buildTree(root, { showAll }));
     const index = [];
     for (const f of files) {
-      const abs = safeResolve(root, f.rel);
+      const abs = await safeResolve(root, f.rel);
       if (!abs) continue;
       try {
         const stat = await fsp.stat(abs);
@@ -272,7 +311,7 @@ function quickTitle(raw, fallback) {
   return fallback;
 }
 
-/** Build a plain-text snippet around the first match, with the match marked by  ... */
+/** Build a plain-text snippet around the first match. */
 function makeSnippet(text, needle) {
   const plain = text.replace(/`{1,3}/g, "").replace(/[#>*_~]/g, "").replace(/\s+/g, " ").trim();
   const lower = plain.toLowerCase();
@@ -301,7 +340,7 @@ async function serveAsset(res, name) {
     }
   }
   const abs = path.join(ASSET_DIR, safe);
-  if (!abs.startsWith(ASSET_DIR)) return notFound(res);
+  if (abs !== ASSET_DIR && !abs.startsWith(ASSET_DIR + path.sep)) return notFound(res);
   try {
     const data = await fsp.readFile(abs);
     send(res, 200, data, {
@@ -315,7 +354,7 @@ async function serveAsset(res, name) {
 }
 
 async function serveRaw(res, root, relRaw, req) {
-  const abs = safeResolve(root, relRaw);
+  const abs = await safeResolve(root, relRaw);
   if (!abs) return notFound(res, "Forbidden path");
   let stat;
   try {
@@ -341,6 +380,7 @@ async function serveRaw(res, root, relRaw, req) {
       "Accept-Ranges": "bytes",
       "Content-Length": end - start + 1,
       "Cache-Control": "no-store",
+      ...RAW_SECURITY_HEADERS,
     });
     return fs.createReadStream(abs, { start, end }).pipe(res);
   }
@@ -350,6 +390,7 @@ async function serveRaw(res, root, relRaw, req) {
     "Content-Length": stat.size,
     "Accept-Ranges": "bytes",
     "Cache-Control": "no-store",
+    ...RAW_SECURITY_HEADERS,
   });
   fs.createReadStream(abs).pipe(res);
 }
@@ -366,7 +407,7 @@ async function readDoc(root, showAll, rel) {
     contentHtml = renderEmptyState(rootName, mdCount);
     title = rootName;
   } else {
-    const abs = safeResolve(root, rel);
+    const abs = await safeResolve(root, rel);
     if (!abs || !isMarkdown(rel)) {
       ok = false;
     } else {
@@ -403,7 +444,7 @@ async function serveView(res, root, showAll, rel) {
 }
 
 async function servePartial(res, root, showAll, rel) {
-  const abs = safeResolve(root, rel);
+  const abs = await safeResolve(root, rel);
   if (!abs || !isMarkdown(rel)) return send(res, 404, JSON.stringify({ error: "not found" }), { "Content-Type": "application/json" });
   let src;
   try {

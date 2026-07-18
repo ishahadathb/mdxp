@@ -99,6 +99,9 @@ async function main() {
   const maxTries = 50;
   let tries = 0;
 
+  const isLoopback = (h) =>
+    h === "127.0.0.1" || h === "localhost" || h === "::1" || h === "[::1]";
+
   const listen = () => {
     server.listen(port, opts.host, () => {
       const url = `http://${opts.host}:${port}/`;
@@ -109,6 +112,14 @@ async function main() {
         `  ➜  ${root}\n\n` +
         `  Press Ctrl+C to stop.\n\n`
       );
+      if (!isLoopback(opts.host)) {
+        process.stdout.write(
+          `  \x1b[33m⚠  Bound to ${opts.host} — this exposes ${name} to your network\n` +
+          `     with no authentication. Anyone who can reach this port can read\n` +
+          `     every file mdxp serves. Use the default 127.0.0.1 unless you\n` +
+          `     specifically intend to share it.\x1b[0m\n\n`
+        );
+      }
       if (opts.open) openBrowser(url);
     });
   };
