@@ -38,11 +38,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ishahadathb/mdxp.git"
+    "url": "git+https://github.com/ishahadathb/mdxplore.git"
   },
-  "homepage": "https://github.com/ishahadathb/mdxp#readme",
+  "homepage": "https://github.com/ishahadathb/mdxplore#readme",
   "bugs": {
-    "url": "https://github.com/ishahadathb/mdxp/issues"
+    "url": "https://github.com/ishahadathb/mdxplore/issues"
   },
   "engines": {
     "node": ">=22.12.0"

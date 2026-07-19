@@ -27,5 +27,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 - Published to npm as `mdxp`; the installed command is `mdxp`.
 
-[Unreleased]: https://github.com/ishahadathb/mdxp/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/ishahadathb/mdxp/releases/tag/v0.1.0
+[Unreleased]: https://github.com/ishahadathb/mdxplore/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/ishahadathb/mdxplore/releases/tag/v0.1.0

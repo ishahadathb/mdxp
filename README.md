@@ -1,6 +1,6 @@
 # mdxplore
 
-[![CI](https://github.com/ishahadathb/mdxp/actions/workflows/ci.yml/badge.svg)](https://github.com/ishahadathb/mdxp/actions/workflows/ci.yml)
+[![CI](https://github.com/ishahadathb/mdxplore/actions/workflows/ci.yml/badge.svg)](https://github.com/ishahadathb/mdxplore/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/mdxplore.svg)](https://www.npmjs.com/package/mdxplore)
 [![license](https://img.shields.io/npm/l/mdxplore.svg)](./LICENSE)
 

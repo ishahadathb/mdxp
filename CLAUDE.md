@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `mdxplore` — a zero-dependency-on-build CLI that serves a directory of Markdown as a browsable HTML explorer. It's a small local HTTP server that renders each `.md` on request; it **never writes to the directory it serves** (a stated product guarantee — don't break it).
 
-Naming quirk: the npm package and bin command are `mdxplore`, but the GitHub repo is still `ishahadathb/mdxp` (npm rejected the name `mdxp` as too similar to `md5`). Repo URLs in package.json/README are intentionally unchanged.
+History note: the project was previously named `mdxp` (and `mdth` before that); it was renamed because npm rejected `mdxp` as too similar to `md5`. Package, bin command, and GitHub repo (`ishahadathb/mdxplore`) all use the current name.
 
 ## Commands
 
