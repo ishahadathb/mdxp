@@ -95,7 +95,7 @@ npm publish
 
 ## Requirements
 
-Node.js 18 or newer.
+Node.js 22.12 or newer.
 
 ## Development
 
@@ -119,7 +119,7 @@ npm test          # run the suite once
 npm run test:watch
 ```
 
-Coverage spans the rendering pipeline (link rewriting, mermaid, callouts, titles), the directory walker (ignore rules, ordering, default doc), and the HTTP server (all routes, full-text search, and the path-traversal guard). CI runs the suite on Node 18, 20, and 22 via GitHub Actions (`.github/workflows/ci.yml`).
+Coverage spans the rendering pipeline (link rewriting, mermaid, callouts, titles), the directory walker (ignore rules, ordering, default doc), and the HTTP server (all routes, full-text search, and the path-traversal guard). CI runs the suite on Node 22 and 24 via GitHub Actions (`.github/workflows/ci.yml`).
 
 ## License
 
