@@ -1,8 +1,7 @@
 name: Release
 
 on:
-  push:
-    tags: ["v*"]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -20,12 +19,18 @@ jobs:
       - run: npm test
       - run: npm pack
 
-      # Use the tag's section from CHANGELOG.md as the release notes;
+      - name: Determine tag from package.json
+        id: tag
+        run: echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # Use the version's section from CHANGELOG.md as the release notes;
       # fall back to GitHub's auto-generated notes if there isn't one.
       - name: Extract release notes
         id: notes
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="${TAG#v}"
           awk -v ver="$VERSION" '
             $0 ~ "^## \\[" ver "\\]" { flag = 1; next }
             /^## \[/ { flag = 0 }
@@ -36,15 +41,18 @@ jobs:
             echo "flags=--generate-notes" >> "$GITHUB_OUTPUT"
           fi
 
+      # Creates the tag at the dispatched commit if it doesn't exist yet;
+      # an existing tag (e.g. pushed by npm version) is reused as-is.
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.tag.outputs.tag }}
         run: |
           PRERELEASE=""
-          case "$GITHUB_REF_NAME" in *-*) PRERELEASE="--prerelease";; esac
-          gh release create "$GITHUB_REF_NAME" \
-            --verify-tag \
-            --title "$GITHUB_REF_NAME" \
+          case "$TAG" in *-*) PRERELEASE="--prerelease";; esac
+          gh release create "$TAG" \
+            --target "$GITHUB_SHA" \
+            --title "$TAG" \
             $PRERELEASE \
             ${{ steps.notes.outputs.flags }} \
             mdxplore-*.tgz
