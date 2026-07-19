@@ -45,7 +45,7 @@
     "url": "https://github.com/ishahadathb/mdxp/issues"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12.0"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -54,6 +54,6 @@
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-task-lists": "^2.1.1",
     "mermaid": "^11.4.1",
-    "sanitize-html": ">=2.17.0 <2.17.6"
+    "sanitize-html": "^2.17.6"
   }
 }
