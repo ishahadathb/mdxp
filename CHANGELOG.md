@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Renamed the package from `mdxp` to `mdxplore` — npm rejected `mdxp` as too
+  similar to the existing `md5` package. The installed command is now `mdxplore`.
+
 ## [0.1.0] - 2026-07-16
 
 ### Added

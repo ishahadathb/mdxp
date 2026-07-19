@@ -11,7 +11,7 @@ cross-references across folders stay navigable.
 
 ## Steps
 
-1. Point mdxp at a directory.
+1. Point mdxplore at a directory.
 2. Open the browser.
 3. Read.
 
@@ -20,5 +20,5 @@ cross-references across folders stay navigable.
 Anchor links appear on hover — try the `#` beside a heading.
 
 ```bash
-npx mdxp ./docs
+npx mdxplore ./docs
 ```

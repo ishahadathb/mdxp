@@ -1,11 +1,11 @@
 ---
-title: Welcome to the mdxp sample
+title: Welcome to the mdxplore sample
 ---
 
 # Welcome 👋
 
-This is a small sample tree so you can see **mdxp** in action. Everything here is
-plain Markdown — mdxp renders it live.
+This is a small sample tree so you can see **mdxplore** in action. Everything here is
+plain Markdown — mdxplore renders it live.
 
 ## Start here
 
@@ -24,7 +24,7 @@ plain Markdown — mdxp renders it live.
 > Press <kbd>⌘K</kbd> (or <kbd>Ctrl K</kbd>) to jump to any document instantly.
 
 > [!WARNING]
-> This is a sample directory — edit freely, mdxp never writes back to it.
+> This is a sample directory — edit freely, mdxplore never writes back to it.
 
 Inline `code`, **bold**, _italic_, and a [link to an external site](https://example.com).
 
@@ -45,4 +45,4 @@ export function greet(name) {
 - [x] Preserve directory structure
 - [ ] Your next great doc
 
-![The mdxp mark](assets/logo.svg)
+![The mdxplore mark](assets/logo.svg)

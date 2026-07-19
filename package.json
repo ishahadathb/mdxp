@@ -1,10 +1,10 @@
 {
-  "name": "mdxp",
+  "name": "mdxplore",
   "version": "0.1.1",
   "description": "Turn any directory of Markdown into a fast, browsable HTML explorer. Renders on demand, live-reloads, supports Mermaid and full-text search, and writes nothing to your files.",
   "type": "module",
   "bin": {
-    "mdxp": "bin/mdxp.js"
+    "mdxplore": "bin/mdxplore.js"
   },
   "files": [
     "bin",
@@ -14,8 +14,8 @@
     "assets/favicon.svg"
   ],
   "scripts": {
-    "start": "node bin/mdxp.js",
-    "demo": "node bin/mdxp.js sample",
+    "start": "node bin/mdxplore.js",
+    "demo": "node bin/mdxplore.js sample",
     "test": "node --test",
     "test:watch": "node --test --watch",
     "preversion": "npm test",

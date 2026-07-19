@@ -1,4 +1,4 @@
-/* mdxp client: navigation, filtering, theming, mermaid. */
+/* mdxplore client: navigation, filtering, theming, mermaid. */
 
 const layout = document.querySelector(".layout");
 const scroll = document.getElementById("scroll");
@@ -13,7 +13,7 @@ const pager = document.getElementById("pager");
 
 /* ---------- Boot data ---------- */
 const BOOT = (() => {
-  try { return JSON.parse(document.getElementById("mdxp-data").textContent); }
+  try { return JSON.parse(document.getElementById("mdxplore-data").textContent); }
   catch { return { rel: "", files: [], rootName: "" }; }
 })();
 let currentRel = BOOT.rel || "";
@@ -31,7 +31,7 @@ function currentTheme() {
 }
 function setTheme(t) {
   document.documentElement.setAttribute("data-theme", t);
-  try { localStorage.setItem("mdxp-theme", t); } catch {}
+  try { localStorage.setItem("mdxplore-theme", t); } catch {}
   renderMermaid(true);
 }
 document.getElementById("themeBtn")?.addEventListener("click", () => {

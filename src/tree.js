@@ -3,7 +3,7 @@ import path from "node:path";
 import { isMarkdown } from "./render.js";
 
 const IGNORE_DIRS = new Set([
-  "node_modules", ".git", ".svn", ".hg", ".mdxp", ".next", ".cache",
+  "node_modules", ".git", ".svn", ".hg", ".mdxplore", ".next", ".cache",
   "dist", "build", ".vscode", ".idea",
 ]);
 

@@ -6,7 +6,7 @@ Fenced `mermaid` blocks render as diagrams in the browser.
 
 ```mermaid
 flowchart LR
-    A[Markdown file] -->|request| B(mdxp server)
+    A[Markdown file] -->|request| B(mdxplore server)
     B --> C{Markdown?}
     C -->|yes| D[Render HTML]
     C -->|no| E[Stream raw file]
@@ -20,7 +20,7 @@ flowchart LR
 sequenceDiagram
     participant U as User
     participant B as Browser
-    participant S as mdxp
+    participant S as mdxplore
     U->>B: click a link
     B->>S: GET /partial/guide/diagrams.md
     S-->>B: rendered HTML

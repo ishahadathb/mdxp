@@ -6,10 +6,10 @@ import { createServer } from "../src/server.js";
 import { VERSION } from "../src/version.js";
 
 const HELP = `
-  mdxp — browse a directory of Markdown as HTML, rendered on demand.
+  mdxplore — browse a directory of Markdown as HTML, rendered on demand.
 
   Usage
-    mdxp [directory] [options]
+    mdxplore [directory] [options]
 
   Arguments
     directory            Folder to serve (default: current directory)
@@ -24,11 +24,11 @@ const HELP = `
         --help           Show this help
 
   Examples
-    mdxp                 Serve the current directory
-    mdxp ./docs          Serve ./docs
-    npx mdxp ./docs -p 8080
+    mdxplore                 Serve the current directory
+    mdxplore ./docs          Serve ./docs
+    npx mdxplore ./docs -p 8080
 
-  mdxp never writes to the directory it serves.
+  mdxplore never writes to the directory it serves.
 `;
 
 function parseArgs(argv) {
@@ -107,7 +107,7 @@ async function main() {
       const url = `http://${opts.host}:${port}/`;
       const name = path.basename(root) || root;
       process.stdout.write(
-        `\n  mdxp  ·  serving \x1b[1m${name}\x1b[0m\n` +
+        `\n  mdxplore  ·  serving \x1b[1m${name}\x1b[0m\n` +
         `  ➜  \x1b[36m${url}\x1b[0m\n` +
         `  ➜  ${root}\n\n` +
         `  Press Ctrl+C to stop.\n\n`
@@ -116,7 +116,7 @@ async function main() {
         process.stdout.write(
           `  \x1b[33m⚠  Bound to ${opts.host} — this exposes ${name} to your network\n` +
           `     with no authentication. Anyone who can reach this port can read\n` +
-          `     every file mdxp serves. Use the default 127.0.0.1 unless you\n` +
+          `     every file mdxplore serves. Use the default 127.0.0.1 unless you\n` +
           `     specifically intend to share it.\x1b[0m\n\n`
         );
       }
