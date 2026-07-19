@@ -1,6 +1,6 @@
 {
   "name": "mdxp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Turn any directory of Markdown into a fast, browsable HTML explorer. Renders on demand, live-reloads, supports Mermaid and full-text search, and writes nothing to your files.",
   "type": "module",
   "bin": {
